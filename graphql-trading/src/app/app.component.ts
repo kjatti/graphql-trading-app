@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { TradeTicket } from "./app.ticket"
+import { TradeTicket } from "./app.ticket";
+import { TradeService } from "./app.trade-service"
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,21 @@ export class AppComponent {
   private ticketOpened = false;
   private currentTicket = null;
   private securityList: [string] = ['AAPL', "FB", "IBM"];
+  private tradeService: TradeService = null;
+  private currentSubId: number;
+  private onTradeEvent: any;
+
+  constructor() {
+    var self = this;
+    this.onTradeEvent = (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(result);
+        self.gridData.push(result.tradeAdded);
+      }
+    }
+  }
 
   private gridData: any[] = [
     {
@@ -39,5 +55,14 @@ export class AppComponent {
 
   private addTrade() {
     alert('Adding: ' + this.currentTicket.symbol);
+  }
+
+
+
+  public startSub() {
+    if (!this.tradeService) {
+      this.tradeService = new TradeService();
+    }
+    this.currentSubId = this.tradeService.subscribe(this.onTradeEvent)
   }
 }

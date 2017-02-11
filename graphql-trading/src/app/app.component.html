@@ -2,8 +2,9 @@
   {{title}}
 </h1>
 
-<div>
-  <button kendoButton (click)="openTicket()" [primary]="true">Add Trade</button>
+<div style="display: flex; flex-direction: row">
+  <button  kendoButton (click)="openTicket()" [primary]="true">Add Trade</button>
+  <button  kendoButton (click)="startSub()" [primary]="true">Start Trading</button>
 </div>
 
 <kendo-dialog title="Trade Ticket" *ngIf="ticketOpened" (close)="closeTicket()">
