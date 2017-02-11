@@ -1,5 +1,33 @@
 <h1>
   {{title}}
-
-  <button kendoButton (click)="onButtonClick()" [primary]="true">My Kendo UI Button</button>
 </h1>
+
+<div>
+  <button kendoButton (click)="openTicket()" [primary]="true">Add Trade</button>
+</div>
+
+<kendo-dialog title="Trade Ticket" *ngIf="ticketOpened" (close)="closeTicket()">
+  <h2>Ticket Content Goes Here</h2>
+
+  <div>
+    <label>Symbol</label>
+    <select name="role" [(ngModel)]="currentTicket.symbol">
+        <option *ngFor="let symbol of securityList" [value]="symbol">  
+          {{symbol}}
+        </option>
+    </select>
+  </div>
+
+
+  <kendo-dialog-actions>
+    <button kendoButton (click)="addTrade()" [primary]="true">Add</button>
+    <button kendoButton (click)="closeTicket()" [primary]="true">Cancel</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+
+<kendo-grid [data]="gridData">
+  <kendo-grid-column field="id" width="100"></kendo-grid-column>
+  <kendo-grid-column field="symbol" width="200"></kendo-grid-column>
+  <kendo-grid-column field="action" [sortable]="true"></kendo-grid-column>
+  <kendo-grid-column field="amount" [sortable]="false"></kendo-grid-column>
+</kendo-grid>
